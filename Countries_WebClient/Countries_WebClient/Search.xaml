@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Countries_WebClient.Search"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Countries_WebClient"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" Width="793" MinWidth="820" MaxWidth="815" MaxHeight="815">
+    <Grid
+        Background="Black" Width="815">
+        <TextBox x:Name="SearchTextBox" HorizontalAlignment="Left" Height="55" Margin="10,76,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="391" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
+        <Button x:Name="SearchConcreteCountry" Content="Показать" HorizontalAlignment="Left" Margin="406,76,0,0" VerticalAlignment="Top" Width="148" Height="55" Click="SearchConcreteCountry_Click" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
+        <Button x:Name="SearchAllCounties" Content="Показать все" HorizontalAlignment="Left" Margin="559,76,0,0" VerticalAlignment="Top" Width="216" Height="55" Click="SearchAllCounties_Click" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
+        <ListBox x:Name="CountriesInfo" HorizontalAlignment="Left" Height="554" Margin="10,136,0,0" VerticalAlignment="Top" Width="765" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="16" />
+        <TextBox x:Name="TCondition" HorizontalAlignment="Left" Height="61" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="765" IsReadOnly="True" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
+
+    </Grid>
+</UserControl>
