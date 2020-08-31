@@ -40,8 +40,8 @@ namespace Countries_WebServer
                 SELECT Countries.Name, Countries.Code, Cities.Name as 'Capital', Countries.Area, Countries.Population, Regions.Name as 'Region' 
                 FROM Countries, Cities, Regions 
                 WHERE (Cities.Id = Countries.Capital) 
-                    AND (Regions.Id = Countries.Region);
-            ;";
+                    AND (Regions.Id = Countries.Region)
+            ";
 
             SQL SqlTransact = new SQL(Command, ConfigurationManager.ConnectionStrings["CountriesDBConnection"].ConnectionString);
             DataTable dataTable = SqlTransact.ExecuteReader();

@@ -40,8 +40,8 @@ namespace Countries_WebServer
                 FROM Countries, Cities, Regions 
                 WHERE (Countries.Name = @Country)
                     AND (Cities.Id = Countries.Capital) 
-                    AND (Regions.Id = Countries.Region);
-            ;";
+                    AND (Regions.Id = Countries.Region)
+            ";
 
             List<Params> ParamsList = new List<Params>()
             {
