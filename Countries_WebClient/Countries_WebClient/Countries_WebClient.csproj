@@ -88,7 +88,7 @@
     <Compile Include="Editing.xaml.cs">
       <DependentUpon>Editing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HTTP.cs" />
+    <Compile Include="HTTPClient.cs" />
     <Compile Include="ReactionCheck.cs" />
     <Compile Include="Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
@@ -97,6 +97,7 @@
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserWindow.cs" />
     <Page Include="Editing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

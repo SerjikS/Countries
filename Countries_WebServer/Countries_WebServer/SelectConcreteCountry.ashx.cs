@@ -4,11 +4,7 @@ using System.Linq;
 using System.Web;
 
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
-
-using System.Text.Json;
-using Newtonsoft.Json;
 
 namespace Countries_WebServer
 {
@@ -19,11 +15,33 @@ namespace Countries_WebServer
     {
         public void ProcessRequest(HttpContext Context)
         {
-            string Command = ($@"
-                    SELECT Countries.Name, Countries.Code, Cities.Name as 'Capital', Countries.Area, Countries.Population, Regions.Name as 'Region' 
-                    FROM Countries, Cities, Regions 
-                    WHERE (Countries.Name = @Country) AND (Cities.Id = Countries.Capital) AND (Regions.Id = Countries.Region);
-                ");
+            ExecuteSelectConcreteCountry(Context);
+        }
+
+        private void ExecuteSelectConcreteCountry(HttpContext Context)
+        {
+            DataTable dataTable = GetCountry(Context);
+            Context.Response.ContentType = "text/plain";
+
+            if (dataTable.Rows.Count == 1)
+            {
+                string Result = DataTableToJSON.Convert(dataTable);
+                Context.Response.Write(Result);
+            }
+            else
+            {
+                Context.Response.Write("");
+            }
+        }
+        private DataTable GetCountry(HttpContext Context)
+        {
+            string Command = $@"
+                SELECT Countries.Name, Countries.Code, Cities.Name as 'Capital', Countries.Area, Countries.Population, Regions.Name as 'Region' 
+                FROM Countries, Cities, Regions 
+                WHERE (Countries.Name = @Country)
+                    AND (Cities.Id = Countries.Capital) 
+                    AND (Regions.Id = Countries.Region);
+            ;";
 
             List<Params> ParamsList = new List<Params>()
             {
@@ -31,22 +49,8 @@ namespace Countries_WebServer
             };
 
             SQL SqlTransact = new SQL(Command, ConfigurationManager.ConnectionStrings["CountriesDBConnection"].ConnectionString, ParamsList);
-
             DataTable dataTable = SqlTransact.ExecuteReader();
-            Context.Response.ContentType = "text/plain";
-
-            string Result = DataTableToJSON.Convert(dataTable);
-
-            if (dataTable.Rows.Count == 1)
-            {
-                Result = DataTableToJSON.Convert(dataTable);
-                Context.Response.Write(Result);
-            }
-            else
-            {
-                Context.Response.Write("");
-            }
-
+            return dataTable;
         }
 
         public bool IsReusable

@@ -4,9 +4,7 @@ using System.Linq;
 using System.Web;
 
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
-using Newtonsoft.Json;
 
 namespace Countries_WebServer
 {
@@ -16,6 +14,11 @@ namespace Countries_WebServer
     public class UpdateConcreteCountry : IHttpHandler
     {
         public void ProcessRequest(HttpContext Context)
+        {
+            ExecutUpdateConcreteCountry(Context);
+        }
+
+        private void ExecutUpdateConcreteCountry(HttpContext Context)
         {
             bool CapitalExists = false;
             bool RegionExists = false;
@@ -28,7 +31,8 @@ namespace Countries_WebServer
 
             string Result = string.Empty;
 
-            CountCountries = GetCountCountries(Context);
+            CountCountries = GetCountCountriesWithNotEqualParam(Context);
+
             if (CountCountries != 1)
             {
                 IdCapital = GetIdCity(Context);
@@ -50,6 +54,7 @@ namespace Countries_WebServer
                 }
 
                 IdRegion = GetIdRegion(Context);
+
                 if (IdRegion != 0)
                 {
                     RegionExists = true;
@@ -80,11 +85,12 @@ namespace Countries_WebServer
                 {
                     UpdateCountry(Context, IdCapital, IdRegion);
                 }
-                
-                if (IdCountry != 0)
+
+                DataTable dataTable = GetCountry(Context);
+
+                if (dataTable.Rows.Count > 0)
                 {
                     CountryExists = true;
-                    DataTable dataTable = GetCountry(Context);
                     Result = DataTableToJSON.Convert(dataTable);
                 }
             }
@@ -109,7 +115,7 @@ namespace Countries_WebServer
             }
         }
 
-        private int GetCountCountries(HttpContext Context)
+        private int GetCountCountriesWithNotEqualParam(HttpContext Context)
         {
             string Command = ($@"
                 SELECT COUNT(*) 
@@ -135,6 +141,7 @@ namespace Countries_WebServer
             }
             return 0;
         }
+
         private int GetIdCity(HttpContext Context)
         {
             string Command = ($@"
@@ -159,6 +166,7 @@ namespace Countries_WebServer
             }
             return 0;
         }
+
         private void InsertCity(HttpContext Context)
         {
             string Command = $@"
@@ -236,6 +244,7 @@ namespace Countries_WebServer
             }
             return 0;
         }
+
         private void InsertCountry(HttpContext Context, int IdCapital, int IdRegion)
         {
             string Command = $@"
@@ -256,6 +265,7 @@ namespace Countries_WebServer
             SQL SqlTransact = new SQL(Command, ConfigurationManager.ConnectionStrings["CountriesDBConnection"].ConnectionString, ParamsList);
             SqlTransact.ExecuteNonQuery();
         }
+
         private void UpdateCountry(HttpContext Context, int IdCapital, int IdRegion)
         {
             string Command = $@"
@@ -272,12 +282,13 @@ namespace Countries_WebServer
                 new Params("Capital", IdCapital.ToString()),
                 new Params("Area", Context.Request.QueryString["Area"]),
                 new Params("Population", Context.Request.QueryString["Population"]),
-                new Params("Region", ToString())
+                new Params("Region", IdRegion.ToString())
             };
 
             SQL SqlTransact = new SQL(Command, ConfigurationManager.ConnectionStrings["CountriesDBConnection"].ConnectionString, ParamsList);
             SqlTransact.ExecuteNonQuery();
         }
+
         private DataTable GetCountry(HttpContext Context)
         {
             string Command = $@"

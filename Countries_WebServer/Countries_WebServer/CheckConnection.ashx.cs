@@ -10,11 +10,15 @@ namespace Countries_WebServer
     /// </summary>
     public class CheckConnection : IHttpHandler
     {
-
-        public void ProcessRequest(HttpContext context)
+        public void ProcessRequest(HttpContext Context)
         {
-            context.Response.ContentType = "text/plain";
-            context.Response.Write("1");
+            ExecuteCheckConnection(Context);
+        }
+
+        private void ExecuteCheckConnection(HttpContext Context)
+        {
+            Context.Response.ContentType = "text/plain";
+            Context.Response.Write("1");
         }
 
         public bool IsReusable

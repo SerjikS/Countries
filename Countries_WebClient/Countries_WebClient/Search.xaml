@@ -6,13 +6,45 @@
              xmlns:local="clr-namespace:Countries_WebClient"
              mc:Ignorable="d" 
              d:DesignHeight="700" Width="793" MinWidth="820" MaxWidth="815" MaxHeight="815">
+    <UserControl.Resources>
+        <Style x:Key="TransparentStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Green"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="False">
+                                            <Setter Property="Background" Value="#FF2A2A2A"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="True">
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Background" Value="Black"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter>
+                                </ContentPresenter>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid
         Background="Black" Width="815">
         <TextBox x:Name="SearchTextBox" HorizontalAlignment="Left" Height="55" Margin="10,76,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="391" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
-        <Button x:Name="SearchConcreteCountry" Content="Показать" HorizontalAlignment="Left" Margin="406,76,0,0" VerticalAlignment="Top" Width="148" Height="55" Click="SearchConcreteCountry_Click" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
-        <Button x:Name="SearchAllCounties" Content="Показать все" HorizontalAlignment="Left" Margin="559,76,0,0" VerticalAlignment="Top" Width="216" Height="55" Click="SearchAllCounties_Click" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
-        <ListBox x:Name="CountriesInfo" HorizontalAlignment="Left" Height="554" Margin="10,136,0,0" VerticalAlignment="Top" Width="765" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="16" />
+        <Button Style="{StaticResource TransparentStyle}" x:Name="BSearchConcreteCountry" Content="Показать" HorizontalAlignment="Left" Margin="406,76,0,0" VerticalAlignment="Top" Width="148" Height="55" Click="SearchConcreteCountry_Click" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
+        <Button Style="{StaticResource TransparentStyle}" x:Name="BSearchAllCounties" Content="Показать все" HorizontalAlignment="Left" Margin="559,76,0,0" VerticalAlignment="Top" Width="216" Height="55" Click="SearchAllCounties_Click" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
+        <ListBox x:Name="CountriesInfo" HorizontalAlignment="Left" Height="554" Margin="10,136,0,0" VerticalAlignment="Top" Width="765" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="18" />
         <TextBox x:Name="TCondition" HorizontalAlignment="Left" Height="61" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="765" IsReadOnly="True" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" />
-
     </Grid>
 </UserControl>

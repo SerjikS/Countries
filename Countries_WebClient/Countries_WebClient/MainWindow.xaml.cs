@@ -20,32 +20,17 @@ namespace Countries_WebClient
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     ///     
-    public class UserWindow
-    {
-        protected UserControl userControl;
-        protected int MaxHeight = 815; // Додумать // Добавить /// <sumary/ для всего комментарии к параметрам и к методам
-        protected int MinHeight = 0;
-        public UserWindow(UserControl userControl)
-        {
-            this.userControl = userControl;
-        }
-        public void SetHeightWindow(int Number)
-        {
-            userControl.Height = Number;
-        }
-        public void OpenWindow()
-        {
-            SetHeightWindow(MaxHeight);
-        }
-        public void CloseWindow()
-        {
-            SetHeightWindow(MinHeight);
-        }
-    }
-
     public partial class MainWindow : Window
     {
         private static MainWindow sTMainWindow = null;
+        private static int MaxHeight = 815;
+
+        public static UserWindow SearchWindow;
+        public static UserWindow EditingWindow;
+        public static UserWindow SettingsWindow;
+
+        public static List<UserWindow> UserWindows;
+        public static List<Button> UserButtons;
         public static MainWindow STMainWindow
         {
             get
@@ -53,20 +38,16 @@ namespace Countries_WebClient
                 return sTMainWindow;
             }
         }
-        public static UserWindow SearchWindow;
-        public static UserWindow EditingWindow;
-        public static UserWindow SettingsWindow;
-        public static List<UserWindow> UserWindows;
-        public static List<Button> UserButtons;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            sTMainWindow = this; // переделать в синглтон
+            sTMainWindow = this;
 
-            SearchWindow = new UserWindow(WindowSearch);
-            EditingWindow = new UserWindow(WindowEditing);
-            SettingsWindow = new UserWindow(WindowSettings);
+            SearchWindow = new UserWindow(WindowSearch, MaxHeight);
+            EditingWindow = new UserWindow(WindowEditing, MaxHeight);
+            SettingsWindow = new UserWindow(WindowSettings, MaxHeight);
 
             UserWindows = new List<UserWindow>() { SearchWindow, EditingWindow, SettingsWindow };
             UserButtons = new List<Button>() { BSearch, BEditing, BSettings };
@@ -74,9 +55,11 @@ namespace Countries_WebClient
             CloseButtons();
             OpenSettingsWindow();
         }
+
         private void OpenOnlyOneWindow(UserWindow Name, List<UserWindow> List)
         {
             Name.OpenWindow();
+
             for (int i = 0; i != List.Count; i++)
             {
                 if (Name.GetHashCode() != List[i].GetHashCode())
@@ -85,9 +68,11 @@ namespace Countries_WebClient
                 }
             }
         }
+
         private void AllowOnlyOneButton(Button Name, List<Button> List)
         {
             Name.IsEnabled = true;
+
             for (int i = 0; i != List.Count; i++)
             {
                 if (Name.GetHashCode() != List[i].GetHashCode())
@@ -96,6 +81,7 @@ namespace Countries_WebClient
                 }
             }
         }
+
         private void AllowAllButtons(List<Button> List)
         {
             for (int i = 0; i != List.Count; i++)
@@ -103,42 +89,60 @@ namespace Countries_WebClient
                 List[i].IsEnabled = true;
             }
         }
+
         private void CloseButtons()
         {
             AllowOnlyOneButton(BSettings, UserButtons);
         }
+
         public void OpenSettingsWindow()
         {
             AllowOnlyOneButton(BSettings, UserButtons);
             OpenOnlyOneWindow(SettingsWindow, UserWindows);
         }
+
         public void OpenButtons()
         {
             AllowAllButtons(UserButtons);
         }
 
-        private void BSearch_Click(object sender, RoutedEventArgs e)
+        public void OpenSearchButton()
         {
-            if (Server.HTTPRequestAllow())
+            if (HTTPClient.HTTPRequestAllow())
             {
                 OpenOnlyOneWindow(SearchWindow, UserWindows);
             }
         }
 
-        private void BEditing_Click(object sender, RoutedEventArgs e)
+        public void OpenEditingButton()
         {
-            if (Server.HTTPRequestAllow())
+            if (HTTPClient.HTTPRequestAllow())
             {
                 OpenOnlyOneWindow(EditingWindow, UserWindows);
             }
         }
 
-        private void BSettings_Click(object sender, RoutedEventArgs e)
+        public void OpenSettingsButton()
         {
-            if (Server.HTTPRequestAllow())
+            if (HTTPClient.HTTPRequestAllow())
             {
                 OpenOnlyOneWindow(SettingsWindow, UserWindows);
             }
+        }
+
+        private void BSearch_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSearchButton();
+        }
+
+        private void BEditing_Click(object sender, RoutedEventArgs e)
+        {
+            OpenEditingButton();
+        }
+
+        private void BSettings_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSettingsButton();
         }
     }
 }

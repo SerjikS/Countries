@@ -5,40 +5,35 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 
-using System.Data.SqlClient;
-using System.Data;
 using System.Configuration;
-using System.IO;
 
 namespace Countries_WebServer
 {
     public class Global : System.Web.HttpApplication
-    {   
-        /*
-        private static string PathNoAPP = $@"{AppDomain.CurrentDomain.BaseDirectory}";
-        private static string PathApp = $@"App_Data\";
-        private static string Document = "Countries.mdf";
-        */
+    {
+        //private static string pathnoapp = $@"{appdomain.currentdomain.basedirectory}";
+        //private static string pathapp = $@"app_data\";
+        //private static string document = "countries.mdf";
+
         protected void Application_Start(object sender, EventArgs e)
         {
-            /*
-            try
-            {
-                if (File.Exists(PathNoAPP + PathApp + Document) == true)
-                {
+            //try
+            //{
+            //    if (File.Exists(PathNoAPP + PathApp + Document) == true)
+            //    {
 
-                }
-                else
-                {
-                    byte[] a = File.ReadAllBytes(PathNoAPP + Document);
-                    File.WriteAllBytes(PathNoAPP + PathApp + Document, a);
-                }
-            }
-            finally
-            {
+            //    }
+            //    else
+            //    {
+            //        byte[] a = File.ReadAllBytes(PathNoAPP + Document);
+            //        File.WriteAllBytes(PathNoAPP + PathApp + Document, a);
+            //    }
+            //}
+            //finally
+            //{
 
-            }
-            */
+            //}
+            
             string Command = $@"
 			    CREATE TABLE [Countries] (
                     [Id] INT NOT NULL PRIMARY KEY IDENTITY (1, 1),
@@ -49,6 +44,7 @@ namespace Countries_WebServer
 	                [Population] INT NOT NULL,
 	                [Region] INT NOT NULL
             )";
+
             SQL SqlTransact = new SQL(Command, ConfigurationManager.ConnectionStrings["CountriesDBConnection"].ConnectionString);
             SqlTransact.ExecuteNonQuery();
 

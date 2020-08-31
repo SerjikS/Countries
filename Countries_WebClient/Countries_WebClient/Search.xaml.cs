@@ -31,6 +31,7 @@ namespace Countries_WebClient
         {
             ListBox.Items.Clear();
         }
+
         private void AddResult(ListBox ListBox, List<string> Data)
         {
             for (int i = 0; i != Data.Count; i++)
@@ -38,16 +39,19 @@ namespace Countries_WebClient
                 ListBox.Items.Add(Data[i]);
             }
         }
-        private void SearchConcreteCountry_Click(object sender, RoutedEventArgs e)
+
+        private void SearchConcreteCountry()
         {
             Server.Check();
             ServerReactionCheck.ReactionCheck();
+
             if (Server.ServerConnection == 1)
             {
                 ClearResult(CountriesInfo);
                 string CountryName = SearchTextBox.Text.ToString();
-                string Result = HTTP.HttpRequest($"{Server.Link}SelectConcreteCountry.ashx?Country={CountryName}");
-                bool ResultIsNull = HTTP.HTTPIsNull(Result);
+                string Result = HTTPClient.HttpRequest($"{Server.Link}SelectConcreteCountry.ashx?Country={CountryName}");
+                bool ResultIsNull = HTTPClient.HTTPIsNull(Result);
+
                 if (ResultIsNull == true)
                 {
                     TCondition.Text = "Страна не найдена";
@@ -55,20 +59,20 @@ namespace Countries_WebClient
                 }
                 else
                 {
-                    AddResult(CountriesInfo, HTTP.HTTPResponseToData(Result));
+                    AddResult(CountriesInfo, HTTPClient.HTTPResponseToData(Result));
                     TCondition.Background = Brushes.Green;
                     TCondition.Text = "Страна найдена";
                 }
             }
         }
 
-        private void SearchAllCounties_Click(object sender, RoutedEventArgs e)
+        private void SearchAllCounties()
         {
-            if (Server.HTTPRequestAllow())
+            if (HTTPClient.HTTPRequestAllow())
             {
                 ClearResult(CountriesInfo);
-                string Result = HTTP.HttpRequest($"{Server.Link}SelectAllCountries.ashx");
-                bool ResultIsNull = HTTP.HTTPIsNull(Result);
+                string Result = HTTPClient.HttpRequest($"{Server.Link}SelectAllCountries.ashx");
+                bool ResultIsNull = HTTPClient.HTTPIsNull(Result);
                 if (ResultIsNull == true)
                 {
                     TCondition.Text = "Страны не найдены";
@@ -76,11 +80,21 @@ namespace Countries_WebClient
                 }
                 else
                 {
-                    AddResult(CountriesInfo, HTTP.HTTPResponseToData(Result));
+                    AddResult(CountriesInfo, HTTPClient.HTTPResponseToData(Result));
                     TCondition.Background = Brushes.Green;
                     TCondition.Text = "Страны найдены";
                 }
             }
+        }
+
+        private void SearchConcreteCountry_Click(object sender, RoutedEventArgs e)
+        {
+            SearchConcreteCountry();
+        }
+
+        private void SearchAllCounties_Click(object sender, RoutedEventArgs e)
+        {
+            SearchAllCounties();
         }
     }
 }

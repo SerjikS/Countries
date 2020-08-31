@@ -4,9 +4,7 @@ using System.Linq;
 using System.Web;
 
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
-using Newtonsoft.Json;
 
 namespace Countries_WebServer
 {
@@ -15,21 +13,39 @@ namespace Countries_WebServer
     /// </summary>
     public class SelectAllCountries : IHttpHandler
     {
-
         public void ProcessRequest(HttpContext Context)
         {
-            string Command = ($@"
-                SELECT Countries.Name, Countries.Code, Cities.Name as 'Capital', Countries.Area, Countries.Population, Regions.Name as 'Region' 
-                FROM Countries, Cities, Regions 
-                WHERE (Cities.Id = Countries.Capital) AND (Regions.Id = Countries.Region);
-            ;");
-            SQL SqlTransact = new SQL(Command, ConfigurationManager.ConnectionStrings["CountriesDBConnection"].ConnectionString);
+            ExecuteSelectAllCountries(Context);
+        }
 
-            DataTable dataTable = SqlTransact.ExecuteReader();
+        private void ExecuteSelectAllCountries(HttpContext Context)
+        {
+            DataTable dataTable = GetAllCountries();
             string Result = DataTableToJSON.Convert(dataTable);
 
             Context.Response.ContentType = "text/plain";
-            Context.Response.Write(Result);
+
+            if (dataTable.Rows.Count > 0)
+            {
+                Context.Response.Write(Result);
+            }
+            else
+            {
+                Context.Response.Write("");
+            }
+        }
+        private DataTable GetAllCountries()
+        {
+            string Command = $@"
+                SELECT Countries.Name, Countries.Code, Cities.Name as 'Capital', Countries.Area, Countries.Population, Regions.Name as 'Region' 
+                FROM Countries, Cities, Regions 
+                WHERE (Cities.Id = Countries.Capital) 
+                    AND (Regions.Id = Countries.Region);
+            ;";
+
+            SQL SqlTransact = new SQL(Command, ConfigurationManager.ConnectionStrings["CountriesDBConnection"].ConnectionString);
+            DataTable dataTable = SqlTransact.ExecuteReader();
+            return dataTable;
         }
 
         public bool IsReusable

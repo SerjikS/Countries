@@ -6,76 +6,51 @@ using System.Threading.Tasks;
 
 using System.Net;
 using System.IO;
-using System.Windows.Media;
 
 namespace Countries_WebClient
 {
     static class Server
     {
+        /// <summary>
+        /// Адрес сервера
+        /// </summary>
         public static string Link = "http://localhost:8081/";
+        /// <summary>
+        /// Состояние сервера.
+        /// 0 - Сервер не существует
+        /// 1 - Сервер существует. Запрос успешно обработан
+        /// 2 - Сервер существует, но по неизвестной причине запрос обработан неуспешно
+        /// </summary>
         public static int ServerConnection = 0;
 
-        private static string HttpRequest(string HttpRequest)
-        {
-            string Result = null;
-            WebRequest request = WebRequest.Create(HttpRequest);
-            WebResponse response = request.GetResponse();
-            using (Stream stream = response.GetResponseStream())
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    Result = reader.ReadLine();
-                }
-            }
-            response.Close();
-            return Result;
-        }
-        private static bool HTTPIsNull(string HTTPRequest)
-        {
-            if (string.IsNullOrEmpty(HTTPRequest))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
+        /// <summary>
+        /// Проверка доступности сервера
+        /// </summary>
         public static void Check()
         {
             string Result = null;
+
             try
             {
-                Result = HttpRequest($"{Server.Link}CheckConnection.ashx");
+                Result = HTTPClient.HttpRequest($"{Server.Link}CheckConnection.ashx");
             }
             catch (WebException Exception)
             {
-                if (Exception.Status == WebExceptionStatus.ConnectFailure)
+                switch (Exception.Status)
                 {
-                    ServerConnection = 0;
-                }
-                if (Exception.Status == WebExceptionStatus.ProtocolError)
-                {
-                    ServerConnection = 2;
+                    case WebExceptionStatus.ConnectFailure:
+                        ServerConnection = 0;
+                        break;
+                    case WebExceptionStatus.ProtocolError:
+                        ServerConnection = 2;
+                        break;
+                    default:
+                        break;
                 }
             }
             if (Result == "1")
             {
                 ServerConnection = 1;
-            }
-        }
-        public static bool HTTPRequestAllow()
-        {
-            Server.Check();
-            ServerReactionCheck.ReactionCheck();
-            if (Server.ServerConnection == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }

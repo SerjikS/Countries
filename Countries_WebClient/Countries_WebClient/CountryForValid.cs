@@ -19,6 +19,7 @@ namespace Countries_WebClient
             Population = 1;
             Region = "Введите регион";
         }
+
         public string this[string columnName]
         {
             get

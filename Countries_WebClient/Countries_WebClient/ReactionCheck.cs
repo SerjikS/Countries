@@ -14,23 +14,26 @@ namespace Countries_WebClient
         {
             MainWindow SingleTonMainWindow = MainWindow.STMainWindow;
             Settings SingleTonSettingsWindow = Settings.STSettings;
-            if (Server.ServerConnection == 0)
+
+            switch (Server.ServerConnection)
             {
-                SingleTonSettingsWindow.TCondition.Background = Brushes.Red;
-                SingleTonSettingsWindow.TCondition.Text = "Нет соединения";
-                SingleTonMainWindow.OpenSettingsWindow();
-            }
-            if (Server.ServerConnection == 1)
-            {
-                SingleTonSettingsWindow.TCondition.Background = Brushes.Green;
-                SingleTonSettingsWindow.TCondition.Text = "Соединение установлено";
-                SingleTonMainWindow.OpenButtons();
-            }
-            if (Server.ServerConnection == 2)
-            {
-                SingleTonSettingsWindow.TCondition.Background = Brushes.DarkOrange;
-                SingleTonSettingsWindow.TCondition.Text = "Внутренняя ошибка сервера";
-                SingleTonMainWindow.OpenSettingsWindow();
+                case 0:
+                    SingleTonSettingsWindow.TCondition.Background = Brushes.Red;
+                    SingleTonSettingsWindow.TCondition.Text = "Нет соединения";
+                    SingleTonMainWindow.OpenSettingsWindow();
+                    break;
+                case 1:
+                    SingleTonSettingsWindow.TCondition.Background = Brushes.Green;
+                    SingleTonSettingsWindow.TCondition.Text = "Соединение установлено";
+                    SingleTonMainWindow.OpenButtons();
+                    break;
+                case 2:
+                    SingleTonSettingsWindow.TCondition.Background = Brushes.DarkOrange;
+                    SingleTonSettingsWindow.TCondition.Text = "Внутренняя ошибка сервера";
+                    SingleTonMainWindow.OpenSettingsWindow();
+                    break;
+                default:
+                    break;
             }
         }
     }

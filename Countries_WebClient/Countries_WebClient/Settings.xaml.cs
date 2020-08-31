@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Countries_WebClient
 {
@@ -23,6 +24,11 @@ namespace Countries_WebClient
     public partial class Settings : UserControl
     {
         private static Settings sTSettings = null;
+
+        private static string Path = $@"C:\\Users\{Environment.UserName}\Documents\";
+        private static string Document = "Link.txt";
+        private static string PathDocument = Path + Document;
+
         public static Settings STSettings
         { 
             get
@@ -31,19 +37,19 @@ namespace Countries_WebClient
             }
         }
 
-        private static string Path = $@"C:\\Users\{Environment.UserName}\Documents\";
-        private static string Document = "Link.txt";
-        private static string PathDocument = Path + Document;
+
         public Settings()
         {
             InitializeComponent();
+
             TCondition.Text = "Проверьте подключение";
             sTSettings = this;
+
             try
             {
                 if (File.Exists(PathDocument) == true)
                 {
-                    Server.Link = ReadDocumentLink(PathDocument);
+                    Server.Link = ReadDocumentLink();
                 }
                 else
                 {
@@ -54,17 +60,21 @@ namespace Countries_WebClient
             {
 
             }
+
             CloseButton(BSaveLink);
             TSite.Text = Server.Link;
         }
+
         private void CloseButton(Button button)
         {
             button.IsEnabled = false;
         }
+
         private void OpenButton(Button button)
         {
             button.IsEnabled = true;
         }
+
         private void CreateDocumentLink(string PathDpcument, string Data)
         {
             FileStream fileStream = new FileStream(PathDpcument, FileMode.Create);
@@ -72,7 +82,8 @@ namespace Countries_WebClient
             streamWriter.Write(Server.Link);
             streamWriter.Close();
         }
-        private string ReadDocumentLink(string PathDpcument)
+
+        private string ReadDocumentLink()
         {
             string Data = null;
             FileStream fileStream = new FileStream(PathDocument, FileMode.Open);
@@ -82,18 +93,39 @@ namespace Countries_WebClient
             return Data;
         }
 
-        private void BSaveLink_Click(object sender, RoutedEventArgs e)
+        private void SaveLink()
         {
             Server.Link = TSite.Text;
+
             try
             {
-                CreateDocumentLink(PathDocument, Server.Link);   
+                CreateDocumentLink(PathDocument, Server.Link);
             }
             finally
             {
 
             }
+
             CloseButton(BSaveLink);
+        }
+
+        private void SiteChangedText()
+        {
+            if (TSite.Text != Server.Link)
+            {
+                OpenButton(BSaveLink);
+            }
+        }
+        private void TestLink()
+        {
+            Server.Link = TSite.Text;
+            Server.Check();
+            ServerReactionCheck.ReactionCheck();
+        }
+
+        private void BSaveLink_Click(object sender, RoutedEventArgs e)
+        {
+            SaveLink();
         }
 
         private void BTestLink_Click(object sender, RoutedEventArgs e)
@@ -101,25 +133,9 @@ namespace Countries_WebClient
             TestLink();
         }
 
-        private void TestLink()
-        {
-            Server.Check();
-            ServerReactionCheck.ReactionCheck();
-        }
         private void TSite_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (TSite.Text != Server.Link)
-            {
-                OpenButton(BSaveLink);
-            }
-        }
-
-        private void TSite_TextInput(object sender, TextCompositionEventArgs e)
-        {
-            if (TSite.Text != Server.Link)
-            {
-                OpenButton(BSaveLink);
-            }
+            SiteChangedText();
         }
     }
-    }
+}

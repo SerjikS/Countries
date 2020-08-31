@@ -10,10 +10,14 @@ namespace Countries_WebServer
 {
     public static class DataTableToJSON
     {
-        public static string Convert(DataTable DataTable)
+        /// <summary>
+        /// Преобразование DataTable в JSON
+        /// </summary>
+        /// <param name="dataTable">DataTable</param>
+        public static string Convert(DataTable dataTable)
         {
             string JSONString = string.Empty;
-            JSONString = JsonConvert.SerializeObject(DataTable);
+            JSONString = JsonConvert.SerializeObject(dataTable);
             return JSONString;
         }
     }

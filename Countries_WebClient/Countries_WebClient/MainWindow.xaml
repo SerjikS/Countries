@@ -5,21 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Countries_WebClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="800" MaxWidth="815" MaxHeight="815" MinWidth="815" Background="Black">
+        Title="Клиент Countries v1.0" 
+        Height="800" Width="800" MaxWidth="815" MaxHeight="815" MinWidth="815" Background="Black" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="TransparentStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Green"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="False">
+                                            <Setter Property="Background" Value="#FF2A2A2A"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="True">
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Background" Value="Black"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter>
+                                </ContentPresenter>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <TabPanel Width="800" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="False" MaxWidth="791" Background="Black">
-                <Button x:Name="BSearch" Content="Поиск" Click="BSearch_Click" Background="#FF2A2A2A" Foreground="#FFCDCCCC" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Times New Roman" FontSize="24" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
-                <Button x:Name="BEditing" Content="Редактирование" Click="BEditing_Click" Background="#FF2A2A2A" HorizontalAlignment="Left" Foreground="#FFCDCCCC" FontFamily="Times New Roman" FontSize="24" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
-                <Button x:Name="BSettings" Content="Настройки" Click="BSettings_Click" Background="#FF2A2A2A" HorizontalAlignment="Left" Foreground="#FFCDCCCC" FontFamily="Times New Roman" FontSize="24" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+                <Button Style="{StaticResource TransparentStyle}" Width="263" x:Name="BSearch" Content="Поиск" Click="BSearch_Click" Background="#FF2A2A2A" Foreground="#FFCDCCCC" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Times New Roman" FontSize="24" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+                <Button Style="{StaticResource TransparentStyle}" Width="263" x:Name="BEditing" Content="Редактирование" Click="BEditing_Click" Background="#FF2A2A2A" HorizontalAlignment="Center" Foreground="#FFCDCCCC" FontFamily="Times New Roman" FontSize="24" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+                <Button Style="{StaticResource TransparentStyle}" Width="263" x:Name="BSettings" Content="Настройки" Click="BSettings_Click" Background="#FF2A2A2A" HorizontalAlignment="Center" Foreground="#FFCDCCCC" FontFamily="Times New Roman" FontSize="24" HorizontalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
             </TabPanel>
-            <local:Search x:Name="WindowSearch" Height="807" Margin="0,0,10,0" Background="Black">
+            <local:Search x:Name="WindowSearch" Height="807">
             </local:Search>
             <local:Editing x:Name="WindowEditing" Height="0">
             </local:Editing>
             <local:Settings x:Name="WindowSettings" Height="0">
             </local:Settings>
-            <Border x:Name="BColor"></Border>
         </StackPanel>
     </Grid>
 </Window>

@@ -6,8 +6,41 @@
              xmlns:local="clr-namespace:Countries_WebClient"
              mc:Ignorable="d"
              d:DesignHeight="0" d:DesignWidth="800" Height="815" MinWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="TransparentStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Green"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="False">
+                                            <Setter Property="Background" Value="#FF2A2A2A"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="True">
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Background" Value="Black"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ContentPresenter>
+                                </ContentPresenter>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid Background="Black" Margin="0,0,0,-25">
-            <TextBox x:Name="TName" HorizontalAlignment="Left" Height="72" Margin="259,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="NameValid" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
+            <TextBox x:Name="TName" HorizontalAlignment="Left" Height="72" Margin="259,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="ValidTextBox" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
             <TextBox.Text>
                 <Binding Path="Name" NotifyOnValidationError="True" >
                     <Binding.ValidationRules>
@@ -16,7 +49,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBox x:Name="TCode" HorizontalAlignment="Left" Height="71" Margin="259,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="CodeValid" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
+        <TextBox x:Name="TCode" HorizontalAlignment="Left" Height="71" Margin="259,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="ValidTextBox" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
             <TextBox.Text>
                 <Binding Path="Code" NotifyOnValidationError="True">
                     <Binding.ValidationRules>
@@ -25,7 +58,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBox x:Name="TCapital" HorizontalAlignment="Left" Height="72" Margin="259,296,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="CapitalValid" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
+        <TextBox x:Name="TCapital" HorizontalAlignment="Left" Height="72" Margin="259,296,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="ValidTextBox" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
             <TextBox.Text>
                 <Binding Path="Capital" NotifyOnValidationError="True">
                     <Binding.ValidationRules>
@@ -34,7 +67,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBox x:Name="TArea" HorizontalAlignment="Left" Height="71" Margin="259,384,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="AreaValid" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
+        <TextBox x:Name="TArea" HorizontalAlignment="Left" Height="71" Margin="259,384,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="ValidTextBox" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
             <TextBox.Text>
                 <Binding Path="Area" NotifyOnValidationError="True">
                     <Binding.ValidationRules>
@@ -43,7 +76,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBox x:Name="TPopulation"  HorizontalAlignment="Left" Height="71" Margin="259,470,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="PopulationValid" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
+        <TextBox x:Name="TPopulation"  HorizontalAlignment="Left" Height="71" Margin="259,470,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="ValidTextBox" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
             <TextBox.Text>
                 <Binding Path="Population" NotifyOnValidationError="True">
                     <Binding.ValidationRules>
@@ -52,7 +85,7 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <TextBox x:Name="TRegion" HorizontalAlignment="Left" Height="71" Margin="259,557,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="RegionValid" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
+        <TextBox x:Name="TRegion" HorizontalAlignment="Left" Height="71" Margin="259,557,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="521" Validation.Error="ValidTextBox" TextChanged="TextBox_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Times New Roman" FontSize="36" Background="#FF111111" Foreground="#FFCDCCCC">
             <TextBox.Text>
                 <Binding Path="Region" NotifyOnValidationError="True">
                     <Binding.ValidationRules>
@@ -61,13 +94,13 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        <Button x:Name="BEditing" Content="Редактировать" HorizontalAlignment="Left" Margin="10,644,0,0" VerticalAlignment="Top" Width="770" Height="61" Click="BEditing_Click" Background="#FF111111" Foreground="#FFCDCCCC" FontFamily="Times New Roman" FontSize="36" />
+        <Button Style="{StaticResource TransparentStyle}" x:Name="BEditing" Content="Редактировать" HorizontalAlignment="Left" Margin="10,644,0,0" VerticalAlignment="Top" Width="770" Height="61" Click="BEditing_Click" Background="#FF111111" Foreground="#FFCDCCCC" FontFamily="Times New Roman" FontSize="36" />
         <TextBlock HorizontalAlignment="Left" Margin="10,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="42" Width="234" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"><Run Text="Имя"/></TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="10,211,0,0" TextWrapping="Wrap" Text="Код" VerticalAlignment="Top" Height="71" Width="234" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,296,0,0" TextWrapping="Wrap" Text="Столица" VerticalAlignment="Top" Height="72" Width="244" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,384,0,0" TextWrapping="Wrap" Text="Площадь" VerticalAlignment="Top" Height="71" Width="244" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,470,0,0" TextWrapping="Wrap" Text="Население" VerticalAlignment="Top" Height="71" Width="244" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
-        <TextBlock HorizontalAlignment="Left" Margin="0,557,0,0" TextWrapping="Wrap" Text="Регион" VerticalAlignment="Top" Height="71" Width="244" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,224,0,0" TextWrapping="Wrap" Text="Код" VerticalAlignment="Top" Height="46" Width="234" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,311,0,0" TextWrapping="Wrap" Text="Столица" VerticalAlignment="Top" Height="45" Width="244" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,397,0,0" TextWrapping="Wrap" Text="Площадь" VerticalAlignment="Top" Height="46" Width="244" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,483,0,0" TextWrapping="Wrap" Text="Население" VerticalAlignment="Top" Height="46" Width="244" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,568,0,0" TextWrapping="Wrap" Text="Регион" VerticalAlignment="Top" Height="47" Width="244" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" Foreground="#FFCDCCCC"/>
         <TextBox x:Name="TCondition" HorizontalAlignment="Left" Height="103" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="780" TextAlignment="Center" FontSize="36" FontFamily="Times New Roman" IsReadOnly="True" Background="#FF111111" Foreground="#FFCDCCCC" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
     </Grid>
 </UserControl>
